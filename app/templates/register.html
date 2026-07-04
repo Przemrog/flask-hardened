@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Rejestracja</title></head>
+<body>
+<h2>Rejestracja</h2>
+{% if error %}<p style="color:#b00">{{ error }}</p>{% endif %}
+<form method="post" action="/register">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input name="email" placeholder="email"/><br/>
+    <input name="password" type="password" placeholder="haslo"/><br/>
+    <button type="submit">Zarejestruj</button>
+</form>
+</body></html>

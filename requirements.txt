@@ -1,0 +1,14 @@
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+flask-talisman==1.1.0
+Flask-Limiter==3.8.0
+psycopg2-binary==2.9.9
+PyJWT==2.9.0
+gunicorn==23.0.0
+
+# [HARDENING A03] wszystkie zaleznosci w wersjach wolnych od znanych podatnosci.
+# UWAGA (PB3/H2): utwardzenie Flask wymagalo dodania AZ CZTERECH osobnych rozszerzen
+# bezpieczenstwa (Flask-Login, Flask-WTF, flask-talisman, Flask-Limiter) - w przeciwienstwie
+# do .NET i Spring, gdzie te mechanizmy byly w rdzeniu frameworka (0 nowych zaleznosci).

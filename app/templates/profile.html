@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Profil</title></head>
+<body>
+<a href="/notes">&larr; Notatki</a>
+<h2>Profil</h2>
+<p>Email: {{ user.email }}</p>
+{% if user.avatar_path %}<img src="{{ user.avatar_path }}" width="120"/>{% endif %}
+<form method="post" action="/profile" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="file" name="avatar"/><br/>
+    <button type="submit">Wgraj awatar</button>
+</form>
+</body></html>

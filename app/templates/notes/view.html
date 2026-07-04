@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>{{ note.title }}</title></head>
+<body>
+<a href="/notes">&larr; Notatki</a>
+<h2>{{ note.title }}</h2>
+<p style="color:#777">id={{ note.id }}, owner={{ note.owner_id }}</p>
+<!-- [HARDENING A05] Jinja2 automatycznie koduje wyjscie (brak filtra | safe); skrypt nie zostanie wykonany -->
+<div>{{ note.body }}</div>
+<p>
+    <a href="/notes/{{ note.id }}/edit">Edytuj</a>
+    <form method="post" action="/notes/{{ note.id }}/delete" style="display:inline">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button type="submit">Usun</button>
+    </form>
+</p>
+</body></html>

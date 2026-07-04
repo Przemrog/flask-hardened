@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Notatki</title></head>
+<body>
+<nav>
+    <a href="/notes">Notatki</a>
+    <a href="/notes/new">Nowa</a>
+    <a href="/profile">Profil</a>
+    <a href="/admin">Admin</a>
+    <form method="post" action="/logout" style="display:inline">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button type="submit">Wyloguj</button>
+    </form>
+</nav>
+<hr/>
+<h2>Moje notatki</h2>
+<form method="get" action="/notes/search">
+    <input name="q" placeholder="szukaj po tytule" value="{{ query or '' }}"/>
+    <button type="submit">Szukaj</button>
+</form>
+<ul>
+{% for n in notes %}
+    <li><a href="/notes/{{ n.id }}">{{ n.title }}</a>
+        <span style="color:#777">(id={{ n.id }}, owner={{ n.owner_id }})</span></li>
+{% endfor %}
+</ul>
+<h3>Import z URL</h3>
+<form method="post" action="/notes/import">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input name="url" placeholder="https://..."/>
+    <button type="submit">Importuj</button>
+</form>
+</body></html>

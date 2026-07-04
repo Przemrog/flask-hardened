@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Panel administratora</title></head>
+<body>
+<a href="/notes">&larr; Notatki</a>
+<h2>Panel administratora - wszystkie notatki</h2>
+<p style="color:#777">W wariancie bazowym brak kontroli roli - dostepny dla kazdego zalogowanego.</p>
+<table border="1" cellpadding="4">
+    <tr><th>id</th><th>tytul</th><th>wlasciciel</th></tr>
+    {% for n in notes %}
+    <tr><td>{{ n.id }}</td><td>{{ n.title }}</td><td>{{ n.owner.email }}</td></tr>
+    {% endfor %}
+</table>
+</body></html>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Nowa notatka</title></head>
+<body>
+<h2>Nowa notatka</h2>
+<form method="post" action="/notes">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input name="title" placeholder="tytul"/><br/>
+    <textarea name="body" rows="6" placeholder="tresc"></textarea><br/>
+    <button type="submit">Zapisz</button>
+</form>
+</body></html>

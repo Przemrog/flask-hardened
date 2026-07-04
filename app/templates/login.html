@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Logowanie</title></head>
+<body>
+<h2>Logowanie</h2>
+{% if error %}<p style="color:#b00">{{ error }}</p>{% endif %}
+<form method="post" action="/login">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input name="email" placeholder="email" value="alice@local"/><br/>
+    <input name="password" type="password" placeholder="haslo" value="alice123"/><br/>
+    <button type="submit">Zaloguj</button>
+</form>
+<p style="color:#777">Konta testowe: admin@local/admin123, alice@local/alice123, bob@local/bob123</p>
+<a href="/register">Rejestracja</a>
+</body></html>

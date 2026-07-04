@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: notes
+      POSTGRES_PASSWORD: notes
+      POSTGRES_DB: notesdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notes -d notesdb"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgresql+psycopg2://notes:notes@db:5432/notesdb"
+      SECRET_KEY: "dev-insecure-flask-secret"
+      JWT_SECRET: "dev-only-insecure-signing-key-change-me-please-0123456789"
+      JWT_ISSUER: "notes-app"
+      JWT_AUDIENCE: "notes-app-clients"
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

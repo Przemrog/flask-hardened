@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="pl"><head><meta charset="UTF-8"/><title>Edycja</title></head>
+<body>
+<h2>Edycja notatki</h2>
+<form method="post" action="/notes/{{ note.id }}/edit">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input name="title" value="{{ note.title }}"/><br/>
+    <textarea name="body" rows="6">{{ note.body }}</textarea><br/>
+    <button type="submit">Zapisz</button>
+</form>
+</body></html>
