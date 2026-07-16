@@ -1,6 +1,7 @@
 import os
 import time
-from flask import Flask
+from flask import Flask, request
+from werkzeug.exceptions import HTTPException
 from flask_talisman import Talisman
 from .models import db, seed_data, User
 from .extensions import login_manager, csrf, limiter
@@ -63,13 +64,50 @@ def create_app():
     # API dziala na tokenie Bearer, nie na ciasteczku -> wylaczenie CSRF dla warstwy /api
     csrf.exempt(api_bp)
 
+    # [HARDENING A09]
+    # Jawny audyt uruchomienia ograniczenia liczby żądań.
+    @app.errorhandler(429)
+    def handle_rate_limit(error):
+        app.logger.warning(
+            "SECURITY event=rate_limit_exceeded "
+            "ip=%s method=%s path=%s",
+            request.remote_addr,
+            request.method,
+            request.path,
+        )
+
+        return "Zbyt wiele prób. Spróbuj ponownie później.", 429
+
     # [HARDENING A02/A10] globalna obsluga bledow - komunikat ogolny, bez traceback
     @app.errorhandler(Exception)
-    def handle_error(e):
-        code = getattr(e, "code", 500)
-        if code == 404:
-            return "Nie znaleziono.", 404
-        return "Wystapil nieoczekiwany blad. Zdarzenie zostalo zarejestrowane.", code if isinstance(code, int) else 500
+    def handle_error(error):
+        # Obsługiwane błędy HTTP, np. 400, 403 i 404,
+        # nie wymagają pełnego tracebacka.
+        if isinstance(error, HTTPException):
+            if error.code == 404:
+                return "Nie znaleziono.", 404
+    
+            return (
+                error.description
+                or "Żądanie zostało odrzucone.",
+                error.code,
+            )
+    
+        # [HARDENING A09/A10]
+        # Pełny wyjątek trafia wyłącznie do logu serwera.
+        app.logger.exception(
+            "APPLICATION event=unhandled_exception "
+            "ip=%s method=%s path=%s",
+            request.remote_addr,
+            request.method,
+            request.path,
+        )
+    
+        return (
+            "Wystąpił nieoczekiwany błąd. "
+            "Zdarzenie zostało zarejestrowane.",
+            500,
+        )
 
     with app.app_context():
         for attempt in range(10):

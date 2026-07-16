@@ -2,7 +2,14 @@ import ipaddress
 import socket
 import urllib.request
 from urllib.parse import urlparse
-from flask import Blueprint, request, render_template, redirect, abort
+from flask import (
+    Blueprint,
+    request,
+    render_template,
+    redirect,
+    abort,
+    current_app,
+)
 from flask_login import login_required, current_user
 from .models import db, Note
 
@@ -13,6 +20,21 @@ def _owned_note(note_id):
     # [HARDENING A01] wspolna weryfikacja wlasciciela (deny-by-default)
     note = db.get_or_404(Note, note_id)
     if note.owner_id != current_user.id:
+        current_app.logger.warning(
+            "SECURITY event=idor_denied "
+            "channel=web user=%s user_id=%s "
+            "note_id=%s owner_id=%s ip=%s "
+            "method=%s path=%s",
+            getattr(current_user, "email", "?"),
+            current_user.get_id(),
+            note_id,
+            note.owner_id,
+            request.remote_addr,
+            request.method,
+            request.path,
+        )
+        # Klient nadal otrzymuje 404, aby nie ujawniać
+        # istnienia chronionego zasobu.
         abort(404)
     return note
 

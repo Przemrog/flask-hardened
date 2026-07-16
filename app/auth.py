@@ -40,7 +40,15 @@ def login():
             login_user(u)  # [HARDENING A07] sesja zarzadzana przez Flask-Login (ochrona przed fiksacja)
             return redirect("/notes")
         # [HARDENING A09] audyt nieudanej proby logowania
-        current_app.logger.warning("Nieudane logowanie dla: %s", email)
+        current_app.logger.warning(
+            "SECURITY event=authentication_failure "
+            "channel=web user=%s ip=%s method=%s path=%s "
+            "reason=invalid_credentials",
+            email,
+            request.remote_addr,
+            request.method,
+            request.path,
+        )
         return render_template("login.html", error="Nieprawidlowy email lub haslo.")
     return render_template("login.html")
 

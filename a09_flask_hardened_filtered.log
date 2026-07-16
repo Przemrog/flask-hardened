@@ -1,0 +1,5 @@
+﻿web-1  | [2026-07-16 10:45:41,035] WARNING in auth: Nieudane logowanie dla: ratelimit_ca866a73b6@local
+web-1  | [2026-07-16 10:45:41,118] WARNING in auth: Nieudane logowanie dla: ratelimit_ca866a73b6@local
+web-1  | [2026-07-16 10:45:41,200] WARNING in auth: Nieudane logowanie dla: ratelimit_ca866a73b6@local
+web-1  | [2026-07-16 10:45:41,286] WARNING in auth: Nieudane logowanie dla: ratelimit_ca866a73b6@local
+web-1  | [2026-07-16 10:45:41,397] WARNING in auth: Nieudane logowanie dla: ratelimit_ca866a73b6@local

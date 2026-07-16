@@ -29,6 +29,18 @@ MAX_IMAGE_PIXELS = 16_000_000
 def _admin_required():
     # [HARDENING A01] eskalacja pionowa zamknieta - wymagana rola ADMIN
     if current_user.role != "ADMIN":
+        current_app.logger.warning(
+            "SECURITY event=authorization_denied "
+            "user=%s user_id=%s role=%s ip=%s "
+            "method=%s path=%s required_role=ADMIN",
+            getattr(current_user, "email", "?"),
+            current_user.get_id(),
+            getattr(current_user, "role", "?"),
+            request.remote_addr,
+            request.method,
+            request.path,
+        )
+
         abort(403)
 
 
