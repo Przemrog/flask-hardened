@@ -8,6 +8,7 @@ psycopg2-binary>=2.9.10
 PyJWT==2.13.0
 gunicorn==23.0.0
 PyYAML==6.0.2
+Pillow==12.3.0
 
 # [HARDENING A03] wszystkie zaleznosci w wersjach wolnych od znanych podatnosci.
 # UWAGA (PB3/H2): utwardzenie Flask wymagalo dodania AZ CZTERECH osobnych rozszerzen

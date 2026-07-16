@@ -20,7 +20,7 @@ słabość oznaczoną w wariancie bazowym jako `[OWASP Axx]` i jest oznaczona ja
 | A07 sesja          | ręczny `session['user_id']` | **Flask-Login** (ochrona przed fiksacją sesji) | `auth.py`, `models.py` |
 | A07 polityka haseł | brak | min. 10 znaków, wielka litera, cyfra, znak specjalny | `auth.py` |
 | A08 JWT            | brak walidacji issuer/audience, 24 h | walidacja issuer + audience, token 1 h | `api.py` |
-| A08 upload         | oryginalna nazwa, brak walidacji | allowlist rozszerzeń, nazwa UUID, limit rozmiaru | `main.py`, `__init__.py` |
+| A08 upload         | oryginalna nazwa, brak walidacji | wykrywanie formatu z zawartości, limit rozmiaru i wymiarów, pełne dekodowanie, normalizacja i ponowne kodowanie do PNG, nazwa UUID | `main.py`, `__init__.py` |
 | A09 logowanie      | brak audytu | `app.logger.warning` przy nieudanym logowaniu | `auth.py` |
 | A01/CSRF           | **brak jakiejkolwiek ochrony** | **Flask-WTF** (`CSRFProtect`) + tokeny w formularzach | `__init__.py`, `templates/*` |
 | A03 zależności     | miejsce na pakiet z CVE | wersje wolne od podatności | `requirements.txt` |

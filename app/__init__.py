@@ -21,6 +21,12 @@ def create_app():
     app.config["SESSION_COOKIE_SECURE"] = os.environ.get("COOKIE_SECURE", "0") == "1"
     app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024  # [HARDENING A08] limit rozmiaru zadania
 
+    # [HARDENING A08] pliki uruchomieniowe trafiają do katalogu instance,
+    # oddzielonego od kodu aplikacji. Ścieżka bezwzględna jest używana
+    # zarówno podczas zapisu, jak i serwowania plików.
+    app.config["UPLOAD_FOLDER"] = os.path.join(app.instance_path, "uploads")
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
